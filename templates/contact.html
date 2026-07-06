@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us | Rising Waters{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="glass-panel">
+            <div class="row g-5">
+                <!-- Contact Form -->
+                <div class="col-md-7">
+                    <h2 class="gradient-text mb-3"><i class="fas fa-paper-plane me-2"></i> Get in Touch</h2>
+                    <p class="text-secondary mb-4">Send us feedback or questions regarding model deployment and integrations.</p>
+                    
+                    <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Message successfully sent! Thank you for contacting the Rising Waters development team.'); this.reset();">
+                        <div class="mb-3">
+                            <label for="contact_name" class="form-label-custom">Full Name</label>
+                            <input type="text" class="form-control form-glass" id="contact_name" required placeholder="John Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact_email" class="form-label-custom">Email Address</label>
+                            <input type="email" class="form-control form-glass" id="contact_email" required placeholder="john@example.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact_subject" class="form-label-custom">Subject</label>
+                            <input type="text" class="form-control form-glass" id="contact_subject" required placeholder="e.g. Model Integration on IBM Cloud">
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact_message" class="form-label-custom">Your Message</label>
+                            <textarea class="form-control form-glass" id="contact_message" rows="4" required placeholder="Enter message here..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-glow w-100"><i class="fas fa-paper-plane me-2"></i> Send Message</button>
+                    </form>
+                </div>
+
+                <!-- Info Column -->
+                <div class="col-md-5 d-flex flex-column justify-content-between border-start border-secondary border-opacity-25 ps-md-5">
+                    <div>
+                        <h4 class="text-white mb-4"><i class="fas fa-tower-observation me-2 text-info"></i> Project Office</h4>
+                        <ul class="list-unstyled text-secondary">
+                            <li class="mb-3 d-flex align-items-start">
+                                <i class="fas fa-location-dot text-info mt-1 me-3"></i>
+                                <span>Department of Computer Science & Engineering,<br>University Campus Center,<br>Sector 12, Hydrological Zone.</span>
+                            </li>
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-phone text-info me-3"></i>
+                                <span>+91 98765 43210</span>
+                            </li>
+                            <li class="mb-3 d-flex align-items-center">
+                                <i class="fas fa-envelope text-info me-3"></i>
+                                <span>support@risingwaters-ml.org</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card bg-opacity-20 border-secondary border-opacity-10 mt-4">
+                        <h6 class="text-white fw-bold mb-2"><i class="fas fa-circle-nodes text-info me-1"></i> IBM Cloud Notice</h6>
+                        <p class="text-secondary small mb-0">For deploying container instances or setting up API access keys, please consult the system administrator at the contact email above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

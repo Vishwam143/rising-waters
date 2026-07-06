@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Run Prediction | Rising Waters{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="glass-panel">
+            <h2 class="gradient-text mb-3"><i class="fas fa-calculator me-2"></i> Meteorological Risk Calculator</h2>
+            <p class="text-secondary mb-4">Enter the current environmental measurements to evaluate local flood risk using our serialized XGBoost model.</p>
+            
+            <form action="{{ url_for('run_prediction') }}" method="POST" class="needs-validation" novalidate>
+                
+                <div class="row g-4">
+                    <!-- Column 1 -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="annual_rainfall" class="form-label-custom">Annual Rainfall (mm)</label>
+                            <input type="number" step="0.01" class="form-control form-glass" id="annual_rainfall" name="annual_rainfall" placeholder="800 - 4000" min="500" max="5000" required>
+                            <div class="invalid-feedback">Please enter a valid annual rainfall value (500 - 5000 mm).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="seasonal_rainfall" class="form-label-custom">Seasonal Rainfall (mm)</label>
+                            <input type="number" step="0.01" class="form-control form-glass" id="seasonal_rainfall" name="seasonal_rainfall" placeholder="400 - 3200" min="300" max="4000" required>
+                            <div class="invalid-feedback">Please enter a valid seasonal rainfall (300 - 4000 mm).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="monthly_rainfall" class="form-label-custom">Peak Monthly Rainfall (mm)</label>
+                            <input type="number" step="0.01" class="form-control form-glass" id="monthly_rainfall" name="monthly_rainfall" placeholder="80 - 1400" min="20" max="2000" required>
+                            <div class="invalid-feedback">Please enter a valid peak monthly rainfall (20 - 2000 mm).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="river_level" class="form-label-custom">Current River Level (meters)</label>
+                            <input type="number" step="0.01" class="form-control form-glass" id="river_level" name="river_level" placeholder="0.5 - 15" min="0" max="25" required>
+                            <div class="invalid-feedback">Please enter a valid river level (0 - 25 meters).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="humidity" class="form-label-custom">Relative Humidity (%)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="humidity" name="humidity" placeholder="40 - 100" min="0" max="100" required>
+                            <div class="invalid-feedback">Please enter a valid humidity (0 - 100%).</div>
+                        </div>
+                    </div>
+
+                    <!-- Column 2 -->
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="cloud_visibility" class="form-label-custom">Cloud Visibility (km)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="cloud_visibility" name="cloud_visibility" placeholder="0.5 - 10" min="0.1" max="25" required>
+                            <div class="invalid-feedback">Please enter a valid visibility (0.1 - 25 km).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="temperature" class="form-label-custom">Temperature (°C)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="temperature" name="temperature" placeholder="15 - 40" min="-10" max="55" required>
+                            <div class="invalid-feedback">Please enter a valid temperature (-10 to 55°C).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="atmospheric_pressure" class="form-label-custom">Atmospheric Pressure (hPa)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="atmospheric_pressure" name="atmospheric_pressure" placeholder="980 - 1030" min="900" max="1100" required>
+                            <div class="invalid-feedback">Please enter a valid pressure (900 - 1100 hPa).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="wind_speed" class="form-label-custom">Wind Speed (km/h)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="wind_speed" name="wind_speed" placeholder="2 - 70" min="0" max="200" required>
+                            <div class="invalid-feedback">Please enter a valid wind speed (0 - 200 km/h).</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cloud_cover" class="form-label-custom">Cloud Cover (%)</label>
+                            <input type="number" step="0.1" class="form-control form-glass" id="cloud_cover" name="cloud_cover" placeholder="10 - 100" min="0" max="100" required>
+                            <div class="invalid-feedback">Please enter a valid cloud cover (0 - 100%).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 text-center">
+                    <button type="submit" class="btn btn-glow px-5 py-3 fs-5"><i class="fas fa-play me-2"></i> Evaluate Flood Risk</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Enable Bootstrap form validation
+(() => {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+    })
+})()
+</script>
+{% endblock %}

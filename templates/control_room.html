@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Control Room | Rising Waters{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="glass-panel">
+            <h1 class="gradient-text mb-2"><i class="fas fa-tower-broadcast me-2"></i> Disaster Command Center</h1>
+            <p class="text-secondary mb-0">Monitor meteorological levels across districts, evaluate risks, and coordinate emergency response protocols.</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Districts List Panel -->
+    <div class="col-lg-5 col-md-12">
+        <div class="glass-panel h-100" id="districtContainer">
+            <h4 class="text-white mb-3"><i class="fas fa-map-location-dot text-info me-2"></i> Active Districts</h4>
+            <p class="text-secondary small mb-4">Select a region to view live telemetry and execute safety actions.</p>
+            
+            <div class="district-grid">
+                <!-- Riverside -->
+                <div class="district-card active flood-high" data-district="riverside">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-white mb-0 fw-bold">Riverside District</h6>
+                        <span class="badge bg-warning text-dark float-end">HIGH RISK</span>
+                    </div>
+                    <p class="small text-secondary mb-0">River Level: 11.2 m | Humidity: 94%</p>
+                </div>
+
+                <!-- Coastal Plains -->
+                <div class="district-card flood-high" data-district="coastal">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-white mb-0 fw-bold">Coastal Plains</h6>
+                        <span class="badge bg-warning text-dark float-end">HIGH RISK</span>
+                    </div>
+                    <p class="small text-secondary mb-0">River Level: 8.9 m | Humidity: 88%</p>
+                </div>
+
+                <!-- Lakefront Basin -->
+                <div class="district-card flood-high" data-district="lakefront">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-white mb-0 fw-bold">Lakefront Basin</h6>
+                        <span class="badge bg-warning text-dark float-end">HIGH RISK</span>
+                    </div>
+                    <p class="small text-secondary mb-0">River Level: 10.5 m | Humidity: 96%</p>
+                </div>
+
+                <!-- Highland Valley -->
+                <div class="district-card flood-low" data-district="highland">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-white mb-0 fw-bold">Highland Valley</h6>
+                        <span class="badge bg-success float-end">SAFE</span>
+                    </div>
+                    <p class="small text-secondary mb-0">River Level: 2.4 m | Humidity: 52%</p>
+                </div>
+
+                <!-- Dry Plains -->
+                <div class="district-card flood-low" data-district="dryplains">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-white mb-0 fw-bold">Dry Plains</h6>
+                        <span class="badge bg-success float-end">SAFE</span>
+                    </div>
+                    <p class="small text-secondary mb-0">River Level: 1.2 m | Humidity: 42%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Details and Simulation Panel -->
+    <div class="col-lg-7 col-md-12">
+        <div class="glass-panel h-100">
+            <div class="d-flex justify-content-between align-items-start border-bottom border-secondary border-opacity-25 pb-3 mb-4">
+                <div>
+                    <h3 class="text-white mb-1" id="detailsName">Riverside District</h3>
+                    <span class="small text-secondary">Telemetry Node: <code class="text-info" id="detailsNode">NODE_01_ACTIVE</code></span>
+                </div>
+                <div class="text-end">
+                    <div class="small text-secondary">Emergency Status:</div>
+                    <div class="text-info fw-bold" id="detailsStatus">Normal Operations</div>
+                </div>
+            </div>
+
+            <!-- Parameters Overview Grid -->
+            <h5 class="text-white mb-3"><i class="fas fa-gauge-high text-info me-2"></i> Meteorological Telemetry</h5>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">Annual Rainfall</div>
+                        <div class="h5 fw-bold text-white mb-0" id="pAnnual">3100 mm</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">Seasonal Rainfall</div>
+                        <div class="h5 fw-bold text-white mb-0" id="pSeasonal">1950 mm</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">Peak Monthly</div>
+                        <div class="h5 fw-bold text-white mb-0" id="pMonthly">580 mm</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">River Level</div>
+                        <div class="h5 fw-bold text-danger mb-0" id="pRiver">11.2 m</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">Relative Humidity</div>
+                        <div class="h5 fw-bold text-white mb-0" id="pHumidity">94%</div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-6">
+                    <div class="glass-card py-2 px-3 text-center">
+                        <div class="small text-secondary">Cloud Visibility</div>
+                        <div class="h5 fw-bold text-white mb-0" id="pVisibility">2.2 km</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-eval Baseline status info -->
+            <div class="mb-4">
+                <span class="text-secondary small">Baseline Risk:</span>
+                <span id="detailsRisk" class="text-danger fw-bold">High Risk (Monsoon Baseline)</span>
+            </div>
+
+            <!-- Run XGBoost Live -->
+            <h5 class="text-white mb-3"><i class="fas fa-microchip text-info me-2"></i> XGBoost Prediction Engine</h5>
+            <div class="mb-4">
+                <button class="btn btn-glow w-100 py-3" id="btnRoomPredict">
+                    <i class="fas fa-play me-2"></i> Run Classification Engine
+                </button>
+                <div class="mt-3" id="roomPredictionResult">
+                    <div class="alert alert-secondary border-0 bg-opacity-10 py-2">
+                        <i class="fas fa-microchip me-2"></i> Click "Run Prediction" to check status with XGBoost.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Actions (Scenario 1 & 2) -->
+            <h5 class="text-white mb-3"><i class="fas fa-circle-exclamation text-info me-2"></i> Disaster Protocol Simulation</h5>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <button class="btn btn-outline-danger w-100 btn-sm py-2" id="btnRoomEvac">
+                        Issue Evacuation Alert
+                    </button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-outline-success w-100 btn-sm py-2" id="btnRoomResource">
+                        Allocate Relief Resources
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

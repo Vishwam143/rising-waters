@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}About Project | Rising Waters{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="glass-panel">
+            <h1 class="gradient-text mb-2">Project Documentation & Architecture</h1>
+            <p class="text-secondary mb-0">Academic and structural documentation for the Flood Prediction System</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left Navigation Menu -->
+    <div class="col-lg-3">
+        <div class="glass-panel sticky-top" style="top: 90px; z-index: 10;">
+            <h5 class="text-white mb-3"><i class="fas fa-list me-2"></i> Contents</h5>
+            <div class="list-group list-group-flush bg-transparent">
+                <a href="#introduction" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Introduction & Objectives</a>
+                <a href="#existing-system" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Existing vs Proposed</a>
+                <a href="#system-architecture" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> System Architecture</a>
+                <a href="#eda-visualizations" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Exploratory Data Analysis</a>
+                <a href="#methodology" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Methodology</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Detailed Documentation -->
+    <div class="col-lg-9">
+        <!-- Introduction -->
+        <div class="glass-panel mb-4" id="introduction">
+            <h3 class="text-white mb-3 border-bottom border-secondary pb-2">1. Introduction & Project Objectives</h3>
+            <p class="text-secondary">
+                Flooding is a catastrophic hydrological event characterized by the overflow of water onto land that is normally dry. Meteorological parameters, such as rainfall, cloud cover, humidity, and temperature, directly dictate these events. The primary objective of this project is to develop a predictive engine that handles multi-dimensional weather data, conducts exploratory data analysis, trains supervised ML models, and deploys the best performing classifier.
+            </p>
+            <h5 class="text-white mt-4 mb-2">Core Objectives:</h5>
+            <ul class="text-secondary small">
+                <li class="mb-2"><strong>Predictive Accuracy:</strong> Establish early flood warning notifications using robust algorithms, targeting >95% classification performance.</li>
+                <li class="mb-2"><strong>Multi-Model Comparison:</strong> Train and compare Decision Trees, Random Forests, K-Nearest Neighbors, and XGBoost classifiers.</li>
+                <li class="mb-2"><strong>Serialized Integration:</strong> Expose predictions via a lightweight Flask web interface, making it easily wrap-able for cloud scaling.</li>
+            </ul>
+        </div>
+
+        <!-- Existing vs Proposed -->
+        <div class="glass-panel mb-4" id="existing-system">
+            <h3 class="text-white mb-3 border-bottom border-secondary pb-2">2. Existing vs Proposed System</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <div class="glass-card h-100">
+                        <h5 class="text-danger"><i class="fas fa-xmark-circle me-1"></i> Existing System</h5>
+                        <p class="text-secondary small">
+                            Traditional systems rely on physical hydrological models and radar imagery. These processes are computationally heavy, struggle with non-linear weather interfaces, and require localized manual adjustments, leading to latency in disaster notification alerts.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h5 class="text-success"><i class="fas fa-check-circle me-1"></i> Proposed System</h5>
+                        <p class="text-secondary small">
+                            A supervised machine learning predictive pipeline. Preprocesses raw environmental readings, scales them through standard distributions, and runs inferences on highly optimized boosted decision trees (XGBoost). Achieves near-instant predictions (<10ms).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Architecture -->
+        <div class="glass-panel mb-4" id="system-architecture">
+            <h3 class="text-white mb-3 border-bottom border-secondary pb-2">3. System Architecture</h3>
+            <p class="text-secondary">
+                The architecture is designed to ingest multi-dimensional meteorological readings, preprocess and normalize variables, pass them to a serialized model file, and deliver results to the interface.
+            </p>
+            <div class="glass-card text-center p-4 my-3 bg-dark bg-opacity-30 border border-secondary border-opacity-25">
+                <div class="d-flex justify-content-center align-items-center flex-wrap gap-2 text-white">
+                    <div class="px-3 py-2 bg-secondary bg-opacity-25 border border-secondary rounded">Meteorological Input</div>
+                    <div class="text-secondary"><i class="fas fa-arrow-right"></i></div>
+                    <div class="px-3 py-2 bg-info bg-opacity-10 border border-info rounded">Feature Scaler (StandardScaler)</div>
+                    <div class="text-secondary"><i class="fas fa-arrow-right"></i></div>
+                    <div class="px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded">XGBoost Engine (floods.save)</div>
+                    <div class="text-secondary"><i class="fas fa-arrow-right"></i></div>
+                    <div class="px-3 py-2 bg-success bg-opacity-10 border border-success rounded">Confidence & Warning Alert</div>
+                </div>
+            </div>
+            <p class="text-secondary small mb-0">
+                This workflow ensures that raw data matches the distribution trained in the pipeline, maintaining predictive performance during production.
+            </p>
+        </div>
+
+        <!-- Exploratory Data Analysis -->
+        <div class="glass-panel mb-4" id="eda-visualizations">
+            <h3 class="text-white mb-4 border-bottom border-secondary pb-2">4. Exploratory Data Analysis (EDA)</h3>
+            <p class="text-secondary">
+                Visualization plays a critical role in finding structure, correlations, and distributions within the dataset. Below are the key representations generated from our training pipeline:
+            </p>
+            
+            <div class="row g-4 mt-2">
+                <!-- Count Plot -->
+                <div class="col-md-6">
+                    <div class="glass-card">
+                        <img src="{{ url_for('static', filename='images/count_plot.png') }}" class="img-fluid rounded mb-3 border border-secondary border-opacity-25" alt="Class Distribution" onerror="this.src='https://placehold.co/600x400?text=Run+Train+Model+First'">
+                        <h5 class="text-white">Target Class Distribution</h5>
+                        <p class="text-secondary small">
+                            <strong>Interpretation:</strong> Displays the distribution of flood events (1) vs. no-flood events (0) in the dataset. A balanced distribution ensures the models do not favor one class, preventing accuracy bias.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Correlation Matrix -->
+                <div class="col-md-6">
+                    <div class="glass-card">
+                        <img src="{{ url_for('static', filename='images/correlation_matrix.png') }}" class="img-fluid rounded mb-3 border border-secondary border-opacity-25" alt="Correlation Matrix" onerror="this.src='https://placehold.co/600x400?text=Run+Train+Model+First'">
+                        <h5 class="text-white">Correlation Matrix</h5>
+                        <p class="text-secondary small">
+                            <strong>Interpretation:</strong> Displays Pearson correlation values. High positive correlations are observed between <code>river_level</code>, <code>seasonal_rainfall</code>, and flood status, showing they are strong predictive markers.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Annual Rainfall Distribution -->
+                <div class="col-md-6">
+                    <div class="glass-card">
+                        <img src="{{ url_for('static', filename='images/annual_rainfall_dist.png') }}" class="img-fluid rounded mb-3 border border-secondary border-opacity-25" alt="Rainfall Distribution" onerror="this.src='https://placehold.co/600x400?text=Run+Train+Model+First'">
+                        <h5 class="text-white">Annual Rainfall Distribution</h5>
+                        <p class="text-secondary small">
+                            <strong>Interpretation:</strong> Displays the spread and density of annual rainfall. The smooth curve representing the Probability Density Function (PDF) shows that our data ranges normally across diverse weather scenarios.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scatter Plot -->
+                <div class="col-md-6">
+                    <div class="glass-card">
+                        <img src="{{ url_for('static', filename='images/scatter_river_rainfall.png') }}" class="img-fluid rounded mb-3 border border-secondary border-opacity-25" alt="River Level vs Rainfall" onerror="this.src='https://placehold.co/600x400?text=Run+Train+Model+First'">
+                        <h5 class="text-white">River Level vs. Seasonal Rainfall</h5>
+                        <p class="text-secondary small">
+                            <strong>Interpretation:</strong> Shows the interaction between river levels (Y) and seasonal rainfall (X). Orange markers (flood) cluster heavily at high river levels and rainfall volumes, showing a clear classification boundary.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Methodology -->
+        <div class="glass-panel" id="methodology">
+            <h3 class="text-white mb-3 border-bottom border-secondary pb-2">5. Methodology & Algorithms</h3>
+            <p class="text-secondary">
+                To build a high-performance system, four machine learning algorithms were trained and comparatively evaluated:
+            </p>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h6 class="text-info fw-bold mb-2">Decision Tree Classifier</h6>
+                        <p class="text-secondary small mb-0">Splits the dataset based on feature thresholds, creating tree nodes that maximize information gain (Gini impurity / Entropy). Quick but prone to overfitting.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h6 class="text-info fw-bold mb-2">K-Nearest Neighbors (KNN)</h6>
+                        <p class="text-secondary small mb-0">Classifies a sample based on the majority label of its <code>k</code> closest neighbors in Euclidean distance. Computationally heavy at test time.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h6 class="text-info fw-bold mb-2">Random Forest Classifier</h6>
+                        <p class="text-secondary small mb-0">An ensemble bagging algorithm that trains multiple Decision Trees in parallel on bootstrapped subsets, taking majority votes to reduce variance.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="glass-card h-100">
+                        <h6 class="text-info fw-bold mb-2">XGBoost (Extreme Gradient Boosting)</h6>
+                        <p class="text-secondary small mb-0">An advanced gradient boosting framework that trains weak learners sequentially, optimizing loss functions with regularization to prevent overfitting. Achieved 96.55% accuracy.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

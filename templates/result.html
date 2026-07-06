@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}High Flood Risk Result | Rising Waters{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="glass-panel text-center border-danger border-opacity-30">
+            <!-- Pulsing Indicator -->
+            <div class="mb-4">
+                <span class="pulse-red"></span>
+                <span class="text-danger fw-bold fs-5 tracking-wide uppercase">Critical Warning Issued</span>
+            </div>
+            
+            <h1 class="display-5 text-danger mb-3 fw-extrabold"><i class="fas fa-exclamation-triangle me-2"></i> High Flood Risk</h1>
+            
+            <!-- Circular Gauge Widget -->
+            <div class="gauge-container my-4">
+                <svg class="gauge-svg" width="200" height="200">
+                    <circle class="gauge-circle-bg" cx="100" cy="100" r="85"></circle>
+                    <circle class="gauge-circle-val" cx="100" cy="100" r="85" style="stroke-dasharray: 534 534; stroke-dashoffset: 53.4;"></circle>
+                </svg>
+                <div class="gauge-text">
+                    <div class="gauge-percent text-danger" id="gaugeValue" data-confidence="{{ confidence }}" data-prediction="1">{{ confidence }}%</div>
+                    <div class="gauge-label">Risk Probability</div>
+                </div>
+            </div>
+
+            <p class="text-secondary leading-relaxed px-md-5 mb-4">
+                Our optimized XGBoost predictive engine has analyzed the meteorological measurements and flagged a <strong>high probability of flood occurrence</strong> in the target region. Immediate disaster protocol activation is advised.
+            </p>
+
+            <!-- Recommendations Card -->
+            <div class="glass-card text-start mb-4 border-danger border-opacity-25 bg-danger bg-opacity-5">
+                <h5 class="text-white mb-3"><i class="fas fa-shield-halved text-danger me-2"></i> Recommended Response Action Plan:</h5>
+                <ul class="text-secondary small mb-0">
+                    <li class="mb-2"><strong class="text-white">Issue warnings:</strong> Immediately relay warnings to residents in low-lying zones.</li>
+                    <li class="mb-2"><strong class="text-white">Prepare evacuation:</strong> Open municipal relief centers and coordinate evacuation paths.</li>
+                    <li class="mb-2"><strong class="text-white">Deploy personnel:</strong> Post rescue coordinators, relief vehicles, and medical assets.</li>
+                    <li class="mb-0"><strong class="text-white">Verify barriers:</strong> Inspect critical channels, river bank walls, and water pump systems.</li>
+                </ul>
+            </div>
+
+            <!-- Parameters Summary (collapsible) -->
+            <button class="btn btn-glass w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#inputDataCollapse" aria-expanded="false" aria-controls="inputDataCollapse">
+                <i class="fas fa-magnifying-glass me-1"></i> Review Environmental Input Parameters
+            </button>
+            <div class="collapse" id="inputDataCollapse">
+                <div class="glass-card text-start border-secondary border-opacity-10 p-3 mb-3">
+                    <div class="row g-2 text-secondary small">
+                        <div class="col-6 col-md-3">Annual Rainfall: <strong>{{ inputs.annual_rainfall }} mm</strong></div>
+                        <div class="col-6 col-md-3">Seasonal Rainfall: <strong>{{ inputs.seasonal_rainfall }} mm</strong></div>
+                        <div class="col-6 col-md-3">Monthly Rainfall: <strong>{{ inputs.monthly_rainfall }} mm</strong></div>
+                        <div class="col-6 col-md-3">River Level: <strong>{{ inputs.river_level }} m</strong></div>
+                        <div class="col-6 col-md-3">Humidity: <strong>{{ inputs.humidity }}%</strong></div>
+                        <div class="col-6 col-md-3">Visibility: <strong>{{ inputs.cloud_visibility }} km</strong></div>
+                        <div class="col-6 col-md-3">Temperature: <strong>{{ inputs.temperature }} °C</strong></div>
+                        <div class="col-6 col-md-3">Cloud Cover: <strong>{{ inputs.cloud_cover }}%</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('predict_page') }}" class="btn btn-glow-danger"><i class="fas fa-rotate-left me-1"></i> Check Another Set</a>
+                <a href="{{ url_for('control_room_page') }}" class="btn btn-glass"><i class="fas fa-tower-broadcast me-1"></i> Command Center</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
