@@ -10,7 +10,7 @@ engine = None
 def get_engine():
     global engine
     if engine is None or not engine.loaded:
-        engine = FloodPredictionEngine(model_path="floods.save", scaler_path="scaler.pkl")
+        engine = FloodPredictionEngine(model_path="model_inference.json")
     return engine
 
 # Load performance metrics from metrics.json

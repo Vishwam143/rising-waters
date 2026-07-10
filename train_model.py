@@ -142,6 +142,33 @@ def train_and_evaluate_models():
     joblib.dump(best_model_data, model_save_path)
     print(f"\nBest Model (XGBoost) serialized and saved to {model_save_path}")
     
+    # Save a unified model_inference.json file for pure-Python inference on Vercel
+    try:
+        temp_booster_path = "temp_booster_train.json"
+        best_model_data['model'].get_booster().save_model(temp_booster_path)
+        with open(temp_booster_path, 'r') as f:
+            booster_data = json.load(f)
+        if os.path.exists(temp_booster_path):
+            os.remove(temp_booster_path)
+
+        base_score = float(booster_data['learner']['learner_model_param']['base_score'].strip('[]'))
+        trees = booster_data['learner']['gradient_booster']['model']['trees']
+
+        inference_data = {
+            'features': list(X.columns),
+            'threshold': float(results.get('xgb_threshold', 0.5)),
+            'base_score': base_score,
+            'scaler_mean': list(scaler.mean_),
+            'scaler_scale': list(scaler.scale_),
+            'trees': trees
+        }
+
+        with open("model_inference.json", "w") as f:
+            json.dump(inference_data, f)
+        print("Model and scaler exported to model_inference.json for lightweight inference.")
+    except Exception as e:
+        print(f"Warning: Failed to export model to JSON for lightweight inference: {e}")
+
     # Save metrics JSON for the Flask app to use
     metrics_path = os.path.join(model_dir, "metrics.json")
     with open(metrics_path, 'w') as f:
