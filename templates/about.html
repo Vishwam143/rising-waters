@@ -17,18 +17,19 @@
     <div class="col-lg-3">
         <div class="glass-panel sticky-top" style="top: 90px; z-index: 10;">
             <h5 class="text-white mb-3"><i class="fas fa-list me-2"></i> Contents</h5>
-            <div class="list-group list-group-flush bg-transparent">
+            <div class="list-group list-group-flush bg-transparent mb-4">
                 <a href="#introduction" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Introduction & Objectives</a>
                 <a href="#existing-system" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Existing vs Proposed</a>
                 <a href="#system-architecture" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> System Architecture</a>
                 <a href="#eda-visualizations" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Exploratory Data Analysis</a>
                 <a href="#methodology" class="list-group-item bg-transparent text-secondary border-secondary border-opacity-25 py-2 px-0"><i class="fas fa-angle-right me-1"></i> Methodology</a>
             </div>
+            <button id="downloadBtn" onclick="downloadPDF()" class="btn btn-glow w-100"><i class="fas fa-file-pdf me-2"></i> Download PDF</button>
         </div>
     </div>
 
     <!-- Right Detailed Documentation -->
-    <div class="col-lg-9">
+    <div class="col-lg-9" id="documentation-content">
         <!-- Introduction -->
         <div class="glass-panel mb-4" id="introduction">
             <h3 class="text-white mb-3 border-bottom border-secondary pb-2">1. Introduction & Project Objectives</h3>
@@ -177,4 +178,59 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- html2pdf library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function downloadPDF() {
+    const btn = document.getElementById('downloadBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Generating PDF...';
+    btn.disabled = true;
+
+    const element = document.getElementById('documentation-content');
+    
+    // Dynamically insert a beautiful PDF header at the top of the content
+    const tempHeader = document.createElement('div');
+    tempHeader.className = 'pdf-only-header';
+    tempHeader.innerHTML = `
+        <div style="text-align: center; margin-bottom: 30px; font-family: 'Outfit', sans-serif; padding-top: 10px;">
+            <h1 style="color: #0ea5e9; font-size: 2.2rem; font-weight: 800; margin-bottom: 5px;">RISING WATERS</h1>
+            <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 20px;">Project Documentation & Architecture</p>
+            <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 30px;">
+        </div>
+    `;
+    element.insertBefore(tempHeader, element.firstChild);
+
+    const opt = {
+        margin:       [0.5, 0.5, 0.5, 0.5],
+        filename:     'rising_waters_documentation.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+            scale: 2, 
+            useCORS: true, 
+            backgroundColor: '#080c16',
+            logging: false
+        },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        element.removeChild(tempHeader);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }).catch(err => {
+        console.error(err);
+        if (element.contains(tempHeader)) {
+            element.removeChild(tempHeader);
+        }
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        alert('Failed to generate PDF. Please try again.');
+    });
+}
+</script>
 {% endblock %}
